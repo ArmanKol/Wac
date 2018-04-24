@@ -5,17 +5,19 @@
 		<form action="DynamicServlet.do" method="get">
 			<table>
 				<tr>
-					<td><p>Cijfer 1</p></td>
-					<td><p>Symbool</p></td>
-					<td><p>Cijfer 2</p></td>
+					<td><p>Eerste cijfer</p></td>
+					<td><p>Tweede cijfer</p></td>
 				</tr>
 				<tr>
 					<td><input type="number" name="cijfer1" /></td>
-					<td><input type="text" name="wiskundigesymbool"/></td>
 					<td><input type="number" name="cijfer2" /><td>
- 					<td><input type="submit" value="Go!" /></td>
- 				<tr>
+ 					<td><input type="submit" value="Bereken!" /></td>
+ 				</tr>
  			</table>
+ 			<input type="radio" name="symbolen" value="plus">Plus
+			<input type="radio" name="symbolen" value="minus">Min
+			<input type="radio" name="symbolen" value="keer">Keer
+			<input type="radio" name="symbolen" value="delen">Delen
 		</form>
  	</body>
 </html>
