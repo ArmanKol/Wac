@@ -1,19 +1,17 @@
-var resultaat = 0;
+var displayInvoer = "";
 var operator = "";
 var cijfers = 0;
 
 function berekening(event){
   if(document.querySelector("#btn_1")){
-    cijfers += 1;
-    console.log(cijfers);
-    document.querySelector("#display").innerHTML = 1;
-  }
-  if(document.querySelector("#btn_plus")){
-
+    displayInvoer += 1;
+    console.log(displayInvoer);
+    document.querySelector("#display").innerHTML = displayInvoer;
   }
 }
 
-var nummer_een_button = document.querySelector("#btn_1");
-
-
-nummer_een_button.addEventListener("click", berekening);
+for(var i =0; i == 9; i++){
+  var button_[i] = document.querySelector("#btn_"+i);
+  console.log(i);
+  button_[i].addEventListener("click", berekening);
+}
