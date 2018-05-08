@@ -11,9 +11,9 @@ function knop_zero(event){
 }
 
 function knop_one(event){
-    cijfers += "1";
-    displayInvoer += "1";
-    document.querySelector("#display").innerHTML = displayInvoer;
+  cijfers += "1";
+  displayInvoer += "1";
+  document.querySelector("#display").innerHTML = displayInvoer;
 }
 
 function knop_two(event){
@@ -115,6 +115,9 @@ function berekening(event){
   document.querySelector("#display").innerHTML = antwoord;
   operator = "";
   displayInvoer = antwoord;
+  oldcijfers = "";
+  cijfers = antwoord;
+
 }
 
 function clear(event){
@@ -127,7 +130,7 @@ function clear(event){
 }
 
 document.querySelector("#btn_0").addEventListener("click", knop_zero);
-document.querySelector("#btn_1").addEventListener("click",knop_one);
+document.querySelector("#btn_1").addEventListener("click", knop_one);
 document.querySelector("#btn_2").addEventListener("click", knop_two);
 document.querySelector("#btn_3").addEventListener("click", knop_three);
 document.querySelector("#btn_4").addEventListener("click", knop_four);
