@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Les</title>
+    <style>
+        body{
+            background-color: #D8D5CE;
+        }
+
+        .headers {
+            background-color: #A09A8E;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            padding-left: 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        table.vakantiebestemmingen{
+            background-color: #B1ADA4;
+            width: 80%;
+        }
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <div id="frame">
+
+        <div id="myLocation">
+            <p class="headers"> Mijn Locatie</p>
+            <table width="400">
+                <td>
+                    <p>Landcode: </p>
+                    <p>Land: </p>
+                    <p>Regio: </p>
+                    <p>Stad: </p>
+                    <p>Postcode: </p>
+                    <p>Latitude: </p>
+                    <p>Longitude: </p>
+                    <p>IP: </p>
+                </td>
+                <td>
+                    <p id="landcode"></p>
+                    <p id="land"></p>
+                    <p id="regio"></p>
+                    <p id="stad"></p>
+                    <p id="postcode"></p>
+                    <p id="lat"></p>
+                    <p id="lon"></p>
+                    <p id="ip"></p>
+                </td>
+
+            </table>
+        </div>
+
+        <div id="weatherInfo">
+            <p id="headerWeer" class="headers">Het weer in </p>
+            <table width="265">
+                <td>
+                    <p>Temperatuur: </p>
+                    <p>Luchtvochtigheid: </p>
+                    <p>Windsnelheid: </p>
+                    <p>Windrichting: </p>
+                    <p>Zonsopgang: </p>
+                    <p>Zonsondergang: </p>
+                </td>
+                <td>
+                    <p id="temperatuur"></p>
+                    <p id="luchtvochtigheid"></p>
+                    <p id="windsnelheid"></p>
+                    <p id="windrichting"></p>
+                    <p id="zonsopgang"></p>
+                    <p id="zonsondergang"></p>
+                </td>
+            </table>
+        </div>
+
+        <div id="countryList">
+            <p class="headers">Beschikbare vakantiebestemmingen</p>
+            <table class="vakantiebestemmingen">
+                <tr style="text-align: left">
+                    <th>Land</th>
+                    <th>Hoofdstad</th>
+                    <th>Regio</th>
+                    <th>Oppervlakte</th>
+                    <th>Inwoners</th>
+                </tr>
+                <tr style="text-align: left">
+                    <td id="landen"></td>
+                    <td id="hoofdstad"></td>
+                    <td id="regio_vakantie"></td>
+                    <td id="oppervlakte"></td>
+                    <td id="inwoners"></td>
+
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</body>
+    <script>
+
+        fetch("https://ipapi.co/json/")
+            .then(response => response.json())
+            .then(function(location) {
+
+                var textCountry = document.createTextNode(location.country);
+                var textCountry_name = document.createTextNode(location.country_name);
+                var textRegion = document.createTextNode(location.region);
+                var textCity = document.createTextNode(location.city);
+                var textPostal = document.createTextNode(location.postal);
+                var textLatitude = document.createTextNode(location.latitude);
+                var textLongitude = document.createTextNode(location.longitude);
+                var textIp = document.createTextNode(location.ip);
+
+                document.querySelector("#landcode").append(textCountry);
+                document.querySelector("#land").append(textCountry_name);
+                document.querySelector("#regio").append(textRegion);
+                document.querySelector("#stad").append(textCity);
+                document.querySelector("#postcode").append(textPostal);
+                document.querySelector("#lat").append(textLatitude);
+                document.querySelector("#lon").append(textLongitude);
+                document.querySelector("#ip").append(textIp);
+
+                //document.querySelector("headerWeer").append(document.createTextNode(location.region));
+
+            });
+
+        fetch("http://api.openweathermap.org/data/2.5/weather?q=Utrecht&appid=208f85213b9c300d1b445708c11a9d80")
+            .then(response => response.json())
+            .then(function(weather){
+
+                document.querySelector("#temperatuur").append(document.createTextNode(weather.main.temp));
+                document.querySelector("#luchtvochtigheid").append(document.createTextNode(weather.main.humidity));
+                document.querySelector("#windsnelheid").append(document.createTextNode(weather.wind.speed));
+                document.querySelector("#windrichting").append(document.createTextNode(weather.main.temp));
+                document.querySelector("#zonsopgang").append(document.createTextNode(weather.sys.sunrise));
+                document.querySelector("#zonsondergang").append(document.createTextNode(weather.sys.sunset));
+                document.querySelector("#headerWeer").append(document.createTextNode(weather.name));
+                //console.log(weather.name);
+            });
+
+        fetch("restservices/countries/")
+            .then(response => response.json())
+            .then(function(weather){
+                for(const country of weather){
+                    document.querySelector("#landen").append(document.createTextNode(country.countries));
+                    document.querySelector("#landen").append(document.createElement("br"));
+
+                    document.querySelector("#hoofdstad").append(document.createTextNode(country.hoofdstad));
+                    document.querySelector("#hoofdstad").append(document.createElement("br"));
+
+                    document.querySelector("#regio_vakantie").append(document.createTextNode(country.regio));
+                    document.querySelector("#regio_vakantie").append(document.createElement("br"));
+
+                    document.querySelector("#oppervlakte").append(document.createTextNode(country.oppervlakte));
+                    document.querySelector("#oppervlakte").append(document.createElement("br"));
+
+                    document.querySelector("#inwoners").append(document.createTextNode(country.inwoners));
+                    document.querySelector("#inwoners").append(document.createElement("br"));
+                    //console.log(country);
+                }
+            });
+
+
+    </script>
+</html>

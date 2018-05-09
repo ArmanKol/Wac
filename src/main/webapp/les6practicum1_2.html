@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Les6 practicum 1 pagina 2</title>
+</head>
+<body>
+    <label id="label"></label>
+</body>
+<script>
+    window.addEventListener('storage', function(event) {
+        var x = window.localStorage.getItem("tekst");
+        document.querySelector("#label").innerHTML = event.newValue;
+    });
+</script>
+</html>

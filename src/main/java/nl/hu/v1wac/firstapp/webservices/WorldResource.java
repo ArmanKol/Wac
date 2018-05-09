@@ -24,8 +24,12 @@ public class WorldResource {
 		
 		for(Country co : service.getAllCountries()) {
 			JsonObjectBuilder job = Json.createObjectBuilder();
-			job.add("Countries", co.getName());
-			job.add("Code", co.getCode());
+			job.add("countries", co.getName());
+			job.add("code", co.getCode());
+			job.add("hoofdstad", co.getCapital());
+			job.add("regio", co.getRegion());
+			job.add("oppervlakte", co.getSurface());
+			job.add("inwoners", co.getPopulation());
 			
 			jab.add(job);
 		}
