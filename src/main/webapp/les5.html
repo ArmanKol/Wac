@@ -82,21 +82,13 @@
 
         <div id="countryList">
             <p class="headers">Beschikbare vakantiebestemmingen</p>
-            <table class="vakantiebestemmingen">
+            <table id="vakantiebestemmingenTable" class="vakantiebestemmingen">
                 <tr style="text-align: left">
                     <th>Land</th>
                     <th>Hoofdstad</th>
                     <th>Regio</th>
                     <th>Oppervlakte</th>
                     <th>Inwoners</th>
-                </tr>
-                <tr style="text-align: left">
-                    <td id="landen"></td>
-                    <td id="hoofdstad"></td>
-                    <td id="regio_vakantie"></td>
-                    <td id="oppervlakte"></td>
-                    <td id="inwoners"></td>
-
                 </tr>
 
             </table>
@@ -127,7 +119,6 @@
                 document.querySelector("#lon").append(textLongitude);
                 document.querySelector("#ip").append(textIp);
 
-                //document.querySelector("headerWeer").append(document.createTextNode(location.region));
 
             });
 
@@ -142,28 +133,45 @@
                 document.querySelector("#zonsopgang").append(document.createTextNode(weather.sys.sunrise));
                 document.querySelector("#zonsondergang").append(document.createTextNode(weather.sys.sunset));
                 document.querySelector("#headerWeer").append(document.createTextNode(weather.name));
-                //console.log(weather.name);
             });
 
         fetch("restservices/countries/")
             .then(response => response.json())
             .then(function(weather){
                 for(const country of weather){
-                    document.querySelector("#landen").append(document.createTextNode(country.countries));
-                    document.querySelector("#landen").append(document.createElement("br"));
 
-                    document.querySelector("#hoofdstad").append(document.createTextNode(country.hoofdstad));
-                    document.querySelector("#hoofdstad").append(document.createElement("br"));
+                    var row = document.createElement("tr");
 
-                    document.querySelector("#regio_vakantie").append(document.createTextNode(country.regio));
-                    document.querySelector("#regio_vakantie").append(document.createElement("br"));
+                    var countryColumn = document.createElement("td");
+                    var countryText = document.createTextNode(country.countries);
+                    row.appendChild(countryColumn);
+                    countryColumn.appendChild(countryText);
 
-                    document.querySelector("#oppervlakte").append(document.createTextNode(country.oppervlakte));
-                    document.querySelector("#oppervlakte").append(document.createElement("br"));
 
-                    document.querySelector("#inwoners").append(document.createTextNode(country.inwoners));
-                    document.querySelector("#inwoners").append(document.createElement("br"));
-                    //console.log(country);
+                    var capitalColumn = document.createElement("td");
+                    var capitalText = document.createTextNode(country.hoofdstad);
+                    row.appendChild(capitalColumn);
+                    capitalColumn.appendChild(capitalText);
+
+
+                    var regionColumn = document.createElement("td");
+                    var regionText = document.createTextNode(country.regio);
+                    row.appendChild(regionColumn);
+                    regionColumn.appendChild(regionText);
+
+
+                    var surfaceColumn = document.createElement("td");
+                    var surfaceText = document.createTextNode(country.oppervlakte);
+                    row.appendChild(surfaceColumn);
+                    surfaceColumn.appendChild(surfaceText);
+
+                    var populationColumn = document.createElement("td");
+                    var populationText = document.createTextNode(country.inwoners);
+                    row.appendChild(populationColumn);
+                    populationColumn.appendChild(populationText);
+
+
+                    document.querySelector("#vakantiebestemmingenTable").appendChild(row);
                 }
             });
 

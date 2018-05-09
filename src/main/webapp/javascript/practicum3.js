@@ -74,6 +74,7 @@ function knop_prod(event){
 
 function berekening(event){
   antwoord = eval(displayInvoer);
+  displayInvoer = antwoord;
   document.querySelector("#display").innerHTML = antwoord;
 
 }
