@@ -1,0 +1,35 @@
+body {
+  background-color: #D8D5CE;
+}
+
+.headers {
+  background-color: #A09A8E;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.headerLocatie {
+  background-color: #A09A8E;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.headerLocatie:hover {
+  cursor: pointer;
+}
+
+table.vakantiebestemmingen {
+  background-color: #B1ADA4;
+  width: 80%;
+}
+
+.vakantiebestemmingen tr:hover {
+  background-color: white;
+  cursor: pointer;
+}
