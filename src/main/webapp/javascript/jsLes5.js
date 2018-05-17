@@ -5,7 +5,7 @@ function initpage() {
 
       document.querySelector("#mijnLocatie").addEventListener("click", function() {
         console.log("tttt");
-        weatherChange(location.city);
+        showWeather(location.city);
       });
       document.querySelector("#landcode").append(document.createTextNode(location.country));
       document.querySelector("#land").append(document.createTextNode(location.country_name));
@@ -22,27 +22,52 @@ function initpage() {
 }
 
 function showWeather(city) {
-  fetch("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=208f85213b9c300d1b445708c11a9d80")
-    .then(response => response.json())
-    .then(function(weather) {
+	
+	if(window.localStorage.getItem(city) != null && JSON.parse(window.localStorage.getItem(city)).name === city && JSON.parse(window.localStorage.getItem(city)).time > new Date().getTime()){
+		var weather = JSON.parse(window.localStorage.getItem(city));
+		
+		console.log("INFORMATIE LOCALSTORAGE");
+		
+		var sunriseM = new Date((weather.sys.sunrise) * 1000);
+    	var sunsetM = new Date((weather.sys.sunset) * 1000);
 
-      var sunriseM = new Date((weather.sys.sunrise) * 1000);
-      var sunsetM = new Date((weather.sys.sunset) * 1000);
+    	var sunset = sunsetM.getHours() + ":" + sunsetM.getMinutes() + ":" + sunsetM.getSeconds();
+    	var sunrise = sunriseM.getHours() + ":" + sunriseM.getMinutes() + ":" + sunriseM.getSeconds();
+	
+    	var temperatuur = (weather.main.temp - 273.15).toFixed(1);
+	
+    	document.querySelector("#temperatuur").innerHTML = temperatuur;
+        document.querySelector("#luchtvochtigheid").innerHTML = weather.main.humidity;
+        document.querySelector("#windsnelheid").innerHTML = weather.wind.speed;
+        document.querySelector("#windrichting").innerHTML = weather.wind.deg;
+        document.querySelector("#zonsopgang").innerHTML = sunrise;
+        document.querySelector("#zonsondergang").innerHTML = sunset;
+        document.querySelector("#headerWeer").innerHTML = "Het weer in " + weather.name;
+    	
+	}else{
+		fetch("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=208f85213b9c300d1b445708c11a9d80")
+    	.then(response => response.json())
+    	.then(function(weather) {
+    		console.log("INFORMATIE FETCH");
+    	weather["time"] = new Date().getTime() * 600000;
+    	window.localStorage.setItem(city, JSON.stringify(weather));
+    	var sunriseM = new Date((weather.sys.sunrise) * 1000);
+    	var sunsetM = new Date((weather.sys.sunset) * 1000);
 
-      var sunset = sunsetM.getHours() + ":" + sunsetM.getMinutes() + ":" + sunsetM.getSeconds();
-      var sunrise = sunriseM.getHours() + ":" + sunriseM.getMinutes() + ":" + sunriseM.getSeconds();
-
-      var temperatuur = (weather.main.temp - 273.15).toFixed(1);
-
-      document.querySelector("#temperatuur").append(document.createTextNode(temperatuur));
-      document.querySelector("#luchtvochtigheid").append(document.createTextNode(weather.main.humidity));
-      document.querySelector("#windsnelheid").append(document.createTextNode(weather.wind.speed));
-      document.querySelector("#windrichting").append(document.createTextNode(weather.wind.deg));
-      document.querySelector("#zonsopgang").append(document.createTextNode(sunrise));
-      document.querySelector("#zonsondergang").append(document.createTextNode(sunset));
-
-      document.querySelector("#headerWeer").append(document.createTextNode(city));
-    });
+    	var sunset = sunsetM.getHours() + ":" + sunsetM.getMinutes() + ":" + sunsetM.getSeconds();
+    	var sunrise = sunriseM.getHours() + ":" + sunriseM.getMinutes() + ":" + sunriseM.getSeconds();
+	
+    	var temperatuur = (weather.main.temp - 273.15).toFixed(1);
+	
+    	document.querySelector("#temperatuur").innerHTML = temperatuur;
+        document.querySelector("#luchtvochtigheid").innerHTML = weather.main.humidity;
+        document.querySelector("#windsnelheid").innerHTML = weather.wind.speed;
+        document.querySelector("#windrichting").innerHTML = weather.wind.deg;
+        document.querySelector("#zonsopgang").innerHTML = sunrise;
+        document.querySelector("#zonsondergang").innerHTML = sunset;
+        document.querySelector("#headerWeer").innerHTML = "Het weer in " + weather.name;
+    	});
+	}
 }
 
 function loadCountries() {
@@ -54,7 +79,7 @@ function loadCountries() {
         var row = document.createElement("tr");
         row.setAttribute("id", country.hoofdstad);
         row.addEventListener("click", function() {
-          weatherChange(this.id);
+          showWeather(this.id);
         });
 
 
@@ -90,32 +115,6 @@ function loadCountries() {
 
         document.querySelector("#vakantiebestemmingenTable").appendChild(row);
       }
-    });
-}
-
-function weatherChange(city) {
-  var url = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=208f85213b9c300d1b445708c11a9d80";
-  fetch(url)
-    .then(response => response.json())
-    .then(function(weather) {
-      var sunriseM = new Date((weather.sys.sunrise) * 1000);
-      var sunsetM = new Date((weather.sys.sunset) * 1000);
-
-      var sunset = sunsetM.getHours() + ":" + sunsetM.getMinutes() + ":" + sunsetM.getSeconds();
-      var sunrise = sunriseM.getHours() + ":" + sunriseM.getMinutes() + ":" + sunriseM.getSeconds();
-
-      var temperatuur = (weather.main.temp - 273.15).toFixed(1);
-
-      document.querySelector("#temperatuur").innerHTML = temperatuur;
-      document.querySelector("#luchtvochtigheid").innerHTML = weather.main.humidity;
-      document.querySelector("#windsnelheid").innerHTML = weather.wind.speed;
-      document.querySelector("#windrichting").innerHTML = weather.wind.deg;
-      document.querySelector("#zonsopgang").innerHTML = sunrise;
-      document.querySelector("#zonsondergang").innerHTML = sunset;
-      document.querySelector("#headerWeer").innerHTML = "Het weer in " + weather.name;
-
-      var localStorage = window.localStorage();
-
     });
 }
 
