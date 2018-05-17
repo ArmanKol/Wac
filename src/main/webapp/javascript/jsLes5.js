@@ -27,7 +27,6 @@ function showWeather(city) {
 		var weather = JSON.parse(window.localStorage.getItem(city));
 		
 		console.log("INFORMATIE LOCALSTORAGE");
-		
 		var sunriseM = new Date((weather.sys.sunrise) * 1000);
     	var sunsetM = new Date((weather.sys.sunset) * 1000);
 
@@ -48,8 +47,10 @@ function showWeather(city) {
 		fetch("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=208f85213b9c300d1b445708c11a9d80")
     	.then(response => response.json())
     	.then(function(weather) {
-    		console.log("INFORMATIE FETCH");
-    	weather["time"] = new Date().getTime() * 600000;
+    	console.log("INFORMATIE FETCH");
+    	
+    	weather["time"] = new Date().getTime() + 10000;
+    	console.log(weather["time"]);
     	window.localStorage.setItem(city, JSON.stringify(weather));
     	var sunriseM = new Date((weather.sys.sunrise) * 1000);
     	var sunsetM = new Date((weather.sys.sunset) * 1000);
