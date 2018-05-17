@@ -16,17 +16,16 @@ public class CountryPostgresDaoImpl extends PostgresBaseDao implements CountryDa
 
 	@Override
 	public List<Country> findAll() {
-		ArrayList<Country> list = new ArrayList<Country>();
+		List<Country> list = new ArrayList<Country>();
 		Country ctry = null;
 		
 		try (Connection connection = super.getConnection()){
 			Statement stmt = connection.createStatement();
-			ResultSet resultset = stmt.executeQuery("select code, iso3, name, capital, continent, region, surfacearea, population, governmentform, latitude, longitude from country;");
-			System.out.println(resultset);
+			ResultSet resultset = stmt.executeQuery("select code, iso3, name, capital, continent, region, surfacearea, population, governmentform, latitude, longitude from country");
+			
 			while(resultset.next()) {
 				ctry = new Country(resultset.getString("code"), resultset.getString("iso3"), resultset.getString("name"), resultset.getString("capital"), resultset.getString("continent"), resultset.getString("region"), resultset.getDouble("surfacearea"), resultset.getInt("population"), resultset.getString("governmentform"), resultset.getDouble("latitude"), resultset.getDouble("longitude"));
 				list.add(ctry);
-				System.out.println(ctry);
 			}
 			resultset.close();
 			stmt.close();

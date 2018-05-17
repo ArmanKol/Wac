@@ -1,10 +1,13 @@
 package nl.hu.v1wac.firstapp.persistence;
 
+import nl.hu.v1wac.firstapp.model.Country;
+
 public class Main {
-	public static void main(String[] arg) {
-		CountryDao cDao = new CountryPostgresDaoImpl();
+	public static void main(String[] args) {
+		CountryDao countryDaoImpl;
 		
-		System.out.println("TESTTEST");
-		System.out.println(cDao.findAll());
+		for(Country countryDao : countryDaoImpl.findAll()) {
+			System.out.println(countryDao);
+		}
 	}
 }

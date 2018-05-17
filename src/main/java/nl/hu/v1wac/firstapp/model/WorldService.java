@@ -5,18 +5,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import nl.hu.v1wac.firstapp.persistence.CountryDao;
 import nl.hu.v1wac.firstapp.persistence.CountryPostgresDaoImpl;
 
 public class WorldService {
 	private List<Country> allCountries = new ArrayList<Country>();
-	private CountryPostgresDaoImpl countryDao;
-	
-	public WorldService() {
+	private CountryDao countryDaoImpl = new CountryPostgresDaoImpl();
 		
-	}
-	
 	public List<Country> getAllCountries() {
-		return countryDao.findAll();
+		return countryDaoImpl.findAll();
 	}
 	
 	public List<Country> get10LargestPopulations() {
