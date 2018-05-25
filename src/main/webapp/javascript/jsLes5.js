@@ -73,7 +73,7 @@ function showWeather(city) {
 }
 
 function loadCountries() {
-  fetch("countries/")
+  fetch("restservices/countries/")
     .then(response => response.json())
     .then(function(weather) {
       for (const country of weather) {
@@ -142,7 +142,7 @@ function loadCountries() {
         var fetchoptions = {method: 'DELETE', headers: {'Authorization' : 'Bearer ' + window.sessionStorage.getItem("sessionToken")}};
 
         deleteButton.addEventListener("click", function(){
-        	fetch("countries/" + country.code, fetchoptions)
+        	fetch("restservices/countries/" + country.code, fetchoptions)
         		.then(function (response) {
         			if(response.ok){
         				alert("Country deleted!")
@@ -172,7 +172,7 @@ function toevoegenBestemming(){
     		var formData = new FormData(document.querySelector("#bestemmingToevoegenForm"));
         	var encData = new URLSearchParams(formData.entries());
         	
-        	fetch("countries", {method: 'POST', body:encData})
+        	fetch("restservices/countries", {method: 'POST', body:encData})
         		.then(response => response.json())
         		.then(function(myJson){
         			console.log(myJson);
@@ -188,7 +188,7 @@ function wijzigLand(){
     	var formData = new FormData(document.querySelector("#countryForm"));
     	var encData = new URLSearchParams(formData.entries());
     	
-    	fetch("countries/" + countryCode, {method: 'PUT', body: encData})
+    	fetch("restservices/countries/" + countryCode, {method: 'PUT', body: encData})
     		.then(response => response.json())
     		.then(function(myJson){
     			console.log(myJson);
@@ -209,10 +209,10 @@ function inloggen(){
 		var formData = new FormData(document.querySelector("#formuser"));
     	var encData = new URLSearchParams(formData.entries());
 		
-		fetch("authentication", {method:'POST', body: encData})
+		fetch("restservices/authentication", {method:'POST', body: encData})
 			.then(function(response){
 				if(response.ok){
-					//location.reload();
+					location.reload();
 					alert("U bent succesvol ingelogd");
 					return response.json();
 				}else{
