@@ -27,6 +27,21 @@ public class Country {
 		this.longitude = lng;
 	}
 	
+	public Country(String land, String landcode, String hoofdstad, String bestuurvorm,String regio, double oppervlakte, int inwoners) {
+		this.name = land;
+		this.code = landcode;
+		this.capital = hoofdstad;
+		this.government = bestuurvorm;
+		this.region = regio;
+		this.surface = oppervlakte;
+		this.population = inwoners;
+	}
+	
+	public Country(String nm, int pop) {
+		this.name = nm;
+		this.population = pop;
+	}
+	
 	public String getCode() {
 		return code;
 	}
@@ -69,5 +84,25 @@ public class Country {
 	
 	public double getLongitude() {
 		return longitude;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setCapital(String capital) {
+		this.capital = capital;
+	}
+	
+	public void setRegion(String region) {
+		this.region = region;
+	}
+	
+	public void setSurface(double surface) {
+		this.surface = surface;
+	}
+	
+	public void setPopulation(int population) {
+		this.population = population;
 	}
 }

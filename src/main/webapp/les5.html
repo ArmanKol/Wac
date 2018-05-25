@@ -10,7 +10,16 @@
 </head>
 <body>
     <div id="frame">
-
+    	<div id="login">
+    		<p class="headers">Inloggen<p>
+    		<form id="formuser" class="form">
+				<p>Naam:</p>
+				<input type="text" id="username_id" name="username"/>
+				<p>Wachtwoord:</p>
+				<input type="password" id="password_id" name="password"/><br><br>
+				<input type="button" id="inloggen_id" value="Inloggen"/>
+			</form>
+		</div>
         <div id="myLocation">
             <p id="mijnLocatie" class="headerLocatie"> Mijn Locatie</p>
             <table width="400">
@@ -59,9 +68,52 @@
                 </td>
             </table>
         </div>
+        
+        <div id="bestemmingToevoegen">
+        	<p class="headers">Nieuwe vakantiebestemming toevoegen</p>
+        	<form id="bestemmingToevoegenForm">
+        		Landcode:
+        		<input type="text" maxlength="2" id="nLandcode" name="nieuwLandcode">
+        		<br>
+        		Landnaam:
+        		<input type="text" id="nLand" name="nieuwLand">
+        		<br>
+        		Bestuurvorm:
+        		<input type="text" id="nBestuurvorm" name="nieuwBestuurvorm">
+        		<br>
+        		Hoofdstad:
+        		<input type="text" id="nHoofdstad" name="nieuwHoofdstad">
+        		<br>
+        		Regio:
+        		<input type="text" id="nRegio" name="nieuwRegio">
+        		<br>
+        		Continent:
+        		<input type="text" id="nContinent" name="nieuwContinent">
+        		<br>
+        		Oppervlakte:
+        		<input type="text" id="nOppervlakte" name="nieuwOppervlakte">
+        		<br>
+        		Inwoners:
+        		<input type="text" id="nInwoners" name="nieuwInwoners">
+        		<br>
+        		
+        		<input type="button" id="post" value="Opslaan">
+        	</form>
+        </div>
 
         <div id="countryList" style="overflow-x:auto;">
             <p class="headers">Beschikbare vakantiebestemmingen</p>
+            
+            <form id="countryForm">
+            	<input type="text" maxlength="2" id="countryCode" name="countryCde" disabled>
+            	<input type="text" id="wLand" name="wijzigLand"> 
+            	<input type="text" id="wHoofdstad" name="wijzigHoofdstad"> 
+            	<input type="text" id="wRegio" name="wijzigRegio"> 
+            	<input type="text" id="wOppervlakte" name="wijzigOppervlakte"> 
+            	<input type="text" id="wInwoners" name="wijzigInwoners">
+            	<input type="button" id="put" value="opslaan">
+            </form>
+            <br>
             <table id="vakantiebestemmingenTable" class="vakantiebestemmingen">
                 <tr style="text-align: left">
                     <th>Land</th>
@@ -69,8 +121,9 @@
                     <th>Regio</th>
                     <th>Oppervlakte</th>
                     <th>Inwoners</th>
+                    <th>Delete</th>
+                    <th>Wijzig</th>
                 </tr>
-
             </table>
         </div>
     </div>

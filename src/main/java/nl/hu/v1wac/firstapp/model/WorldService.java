@@ -1,15 +1,11 @@
 package nl.hu.v1wac.firstapp.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import nl.hu.v1wac.firstapp.persistence.CountryDao;
 import nl.hu.v1wac.firstapp.persistence.CountryPostgresDaoImpl;
 
 public class WorldService {
-	private List<Country> allCountries = new ArrayList<Country>();
 	private CountryDao countryDaoImpl = new CountryPostgresDaoImpl();
 		
 	public List<Country> getAllCountries() {
@@ -17,35 +13,57 @@ public class WorldService {
 	}
 	
 	public List<Country> get10LargestPopulations() {
-		Collections.sort(allCountries, new Comparator<Country>() {
-			public int compare(Country c1, Country c2) {
-				return c2.getPopulation() - c1.getPopulation();
-			};
-		});
-		
-		return allCountries.subList(0, 10);
+		return countryDaoImpl.find10LargestPopulations();
 	}
 
 	public List<Country> get10LargestSurfaces() {
-		Collections.sort(allCountries, new Comparator<Country>() {
-			public int compare(Country c1, Country c2) {
-				return (int)(c2.getSurface() - c1.getSurface());
-			};
-		});
-		
-		return allCountries.subList(0, 10);
+		return countryDaoImpl.find10LargstSurfaces();
 	}
 	
 	public Country getCountryByCode(String code) {
-		Country result = null;
-		
-		for (Country c : allCountries) {
-			if (c.getCode().equals(code)) {
-				result = c;
-				break;
+		return countryDaoImpl.findByCode(code);
+	}
+	
+	public boolean deleteCountry(String code) {
+		for(Country ctry : getAllCountries()) {
+			if(ctry.getCode().equals(code)) {
+				countryDaoImpl.delete(ctry);
+				return true;
 			}
 		}
-		
-		return result;
+		return false;
+	}
+	
+	public Country updateCountry(String code, String land, String hoofdstad, String regio, double oppvlakte, int inwoners) {
+		for(Country ctry : getAllCountries()) {
+			if(ctry.getCode().equals(code)) {
+				ctry.setName(land);
+				ctry.setCapital(hoofdstad);
+				ctry.setRegion(regio);
+				ctry.setSurface(oppvlakte);
+				ctry.setPopulation(inwoners);
+				
+				countryDaoImpl.update(ctry);
+				return ctry;
+			}
+		}
+		return null;
+	}
+	
+	public Country addCountry(String land, String landcode, String hoofdstad, String bestuurvorm,String regio, double oppervlakte, int inwoners) {
+		for(Country ctry : getAllCountries()) {
+			if(!(ctry.getName().equals(land) && ctry.getCapital().equals(hoofdstad))) {
+				Country countryAdd = new Country(land, landcode, hoofdstad, bestuurvorm, regio, oppervlakte, inwoners);
+				
+				if(countryDaoImpl.save(countryAdd) == false) {
+					return null;
+				}else {
+					countryDaoImpl.save(countryAdd);
+					return countryAdd;
+				}
+
+			}
+		}
+		return null;
 	}
 }

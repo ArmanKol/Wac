@@ -4,7 +4,6 @@ function initpage() {
     .then(function(location) {
 
       document.querySelector("#mijnLocatie").addEventListener("click", function() {
-        console.log("tttt");
         showWeather(location.city);
       });
       document.querySelector("#landcode").append(document.createTextNode(location.country));
@@ -18,6 +17,9 @@ function initpage() {
 
       showWeather(location.city);
       loadCountries();
+      toevoegenBestemming();
+      wijzigLand();
+      inloggen();
     });
 }
 
@@ -50,7 +52,6 @@ function showWeather(city) {
     	console.log("INFORMATIE FETCH");
     	
     	weather["time"] = new Date().getTime() + 10000;
-    	console.log(weather["time"]);
     	window.localStorage.setItem(city, JSON.stringify(weather));
     	var sunriseM = new Date((weather.sys.sunrise) * 1000);
     	var sunsetM = new Date((weather.sys.sunset) * 1000);
@@ -85,7 +86,7 @@ function loadCountries() {
 
 
         var countryColumn = document.createElement("td");
-        var countryText = document.createTextNode(country.countries);
+        var countryText = document.createTextNode(country.Land);
         countryColumn.appendChild(countryText);
         row.appendChild(countryColumn);
 
@@ -112,11 +113,116 @@ function loadCountries() {
         var populationText = document.createTextNode(country.inwoners);
         populationColumn.appendChild(populationText);
         row.appendChild(populationColumn);
+        
+        var deleteColumn = document.createElement("td");
+        var deleteButton = document.createElement("input");
+        deleteButton.setAttribute("type", "button")
+        deleteButton.setAttribute("id", country.code);
+        deleteButton.setAttribute("value", "Delete");
+        deleteColumn.appendChild(deleteButton);
+        row.appendChild(deleteColumn);
+        
+        var wijzigColumn = document.createElement("td");
+        var wijzigButton = document.createElement("input");
+        wijzigButton.setAttribute("id", country.code);
+        wijzigButton.setAttribute("type", "button");
+        wijzigButton.setAttribute("value", "Wijzig");
+        wijzigColumn.appendChild(wijzigButton);
+        row.appendChild(wijzigColumn);
+        
+        wijzigButton.addEventListener("click", function(){
+        	document.querySelector("#wLand").setAttribute("value", country.Land);
+        	document.querySelector("#wHoofdstad").setAttribute("value", country.hoofdstad);
+        	document.querySelector("#wRegio").setAttribute("value", country.regio);
+        	document.querySelector("#wOppervlakte").setAttribute("value", country.oppervlakte);
+        	document.querySelector("#wInwoners").setAttribute("value", country.inwoners);
+        	document.querySelector("#countryCode").setAttribute("value", country.code);
+        });
+        
+        var fetchoptions = {method: 'DELETE', headers: {'Authorization' : 'Bearer ' + window.sessionStorage.getItem("sessionToken")}};
 
+        deleteButton.addEventListener("click", function(){
+        	fetch("restservices/countries/" + country.code, fetchoptions)
+        		.then(function (response) {
+        			if(response.ok){
+        				alert("Country deleted!")
+        				console.log("Country deleted!");
+        				location.reload();
+        			}
+        			else if(response.status == 404){
+        				console.log("Country not found")
+        			}
+        			else{
+        				console.log("Cannot delete country");
+        			}
+        	})
+        	.catch(error => consol.log(error));
+        });
 
         document.querySelector("#vakantiebestemmingenTable").appendChild(row);
       }
     });
+}
+
+function toevoegenBestemming(){
+	document.querySelector("#post").addEventListener("click", function(){
+    	if(document.getElementById("nLandcode").value == "" || document.getElementById("nLand").value == ""){
+    		alert("Je hebt geen landcode of landnaam ingevuld.")
+    	}else{
+    		var formData = new FormData(document.querySelector("#bestemmingToevoegenForm"));
+        	var encData = new URLSearchParams(formData.entries());
+        	
+        	fetch("restservices/countries", {method: 'POST', body:encData})
+        		.then(response => response.json())
+        		.then(function(myJson){
+        			console.log(myJson);
+        			location.reload();
+        	});
+    	}
+    });
+}
+
+function wijzigLand(){
+	document.querySelector("#put").addEventListener("click", function(){
+    	var countryCode = document.querySelector("#countryCode").value;
+    	var formData = new FormData(document.querySelector("#countryForm"));
+    	var encData = new URLSearchParams(formData.entries());
+    	
+    	fetch("restservices/countries/" + countryCode, {method: 'PUT', body: encData})
+    		.then(response => response.json())
+    		.then(function(myJson){
+    			console.log(myJson);
+    			location.reload();
+
+    		})
+    });
+}
+
+function inloggen(){
+	document.querySelector("#inloggen_id").addEventListener("click", function(){
+		
+		var username = document.querySelector("#username_id").value;
+		var password = document.querySelector("#password_id").value;
+		window.sessionStorage.setItem('username', username);
+		window.sessionStorage.setItem('password', password);
+		
+		var formData = new FormData(document.querySelector("#formuser"));
+    	var encData = new URLSearchParams(formData.entries());
+		
+		fetch("restservices/authentication", {method:'POST', body: encData})
+			.then(function(response){
+				if(response.ok){
+					//location.reload();
+					alert("U bent succesvol ingelogd");
+					return response.json();
+				}else{
+					alert("Wrong username/password");
+					throw "Wrong username/password";
+				}})
+					
+			.then(myToken => window.sessionStorage.setItem("sessionToken", myToken.JWT))
+			.catch(error => console.log(error));
+	});
 }
 
 initpage();
