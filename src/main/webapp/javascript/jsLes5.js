@@ -172,6 +172,8 @@ function toevoegenBestemming(){
     		var formData = new FormData(document.querySelector("#bestemmingToevoegenForm"));
         	var encData = new URLSearchParams(formData.entries());
         	
+        	var fetchoptions = {method: 'POST', body:encData, headers: {'Authorization' : 'Bearer ' + window.sessionStorage.getItem("sessionToken")}};
+        	
         	fetch("restservices/countries", {method: 'POST', body:encData})
         		.then(response => response.json())
         		.then(function(myJson){

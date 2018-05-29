@@ -50,10 +50,12 @@ public class WorldService {
 		return null;
 	}
 	
-	public Country addCountry(String land, String landcode, String hoofdstad, String bestuursvorm,String regio, double oppervlakte, int inwoners) {
+	public Country addCountry(String land, String landcode, String hoofdstad, String bestuurvorm,String regio, double oppervlakte, int inwoners) {
 		for(Country ctry : getAllCountries()) {
-			if(!(ctry.getName().equals(land) && ctry.getCapital().equals(hoofdstad))) {
-				Country countryAdd = new Country(land, landcode, hoofdstad, bestuursvorm, regio, oppervlakte, inwoners);
+			System.out.println(landcode + land);
+			System.out.println(ctry.getName().equals(landcode) && ctry.getCapital().equals(hoofdstad));
+			if(!(ctry.getName().equals(landcode) && ctry.getCapital().equals(hoofdstad))) {
+				Country countryAdd = new Country(land, landcode, hoofdstad, bestuurvorm, regio, oppervlakte, inwoners);
 				
 				if(countryDaoImpl.save(countryAdd) == false) {
 					return null;

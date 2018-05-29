@@ -138,7 +138,7 @@ public class WorldResource {
 		return Response.ok(country).build();
 	}
 	
-	@RolesAllowed("user")
+	//@RolesAllowed("user")
 	@POST
 	@Produces("application/json")
 	public Response addCountry(@FormParam("nieuwLand") String land,
@@ -154,6 +154,7 @@ public class WorldResource {
 			messages.put("error", "Het opslaan is niet gelukt, waarschijnlijk heeft u geen unieke landcode");
 			return Response.status(409).entity(messages).build();
 		}
+		System.out.println("POST");
 		return Response.ok(newCountry).build();
 	}
 }
