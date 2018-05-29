@@ -73,7 +73,7 @@ function showWeather(city) {
 }
 
 function loadCountries() {
-  fetch("countries/")
+  fetch("restservices/countries/")
     .then(response => response.json())
     .then(function(weather) {
       for (const country of weather) {
