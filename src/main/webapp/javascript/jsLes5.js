@@ -14,12 +14,19 @@ function initpage() {
       document.querySelector("#lat").append(document.createTextNode(location.latitude));
       document.querySelector("#lon").append(document.createTextNode(location.longitude));
       document.querySelector("#ip").append(document.createTextNode(location.ip));
-
+      
+      if(window.sessionStorage.getItem('username') == null){
+    	  document.querySelector("#inlog_naam").innerHTML = "Ingelogd als";
+      }else{
+    	  document.querySelector("#inlog_naam").innerHTML = "Ingelogd als " + window.sessionStorage.getItem('username');
+      }
+      
       showWeather(location.city);
       loadCountries();
       toevoegenBestemming();
       wijzigLand();
       inloggen();
+      uitloggen();
     });
 }
 
@@ -147,7 +154,7 @@ function loadCountries() {
         			if(response.ok){
         				alert("Country deleted!")
         				console.log("Country deleted!");
-        				location.reload();
+        				//location.reload();
         			}
         			else if(response.status == 404){
         				console.log("Country not found")
@@ -224,6 +231,13 @@ function inloggen(){
 					
 			.then(myToken => window.sessionStorage.setItem("sessionToken", myToken.JWT))
 			.catch(error => console.log(error));
+	});
+}
+
+function uitloggen(){
+	document.querySelector("#uitloggen").addEventListener("click", function(){
+		window.sessionStorage.clear();
+		location.reload();
 	});
 }
 

@@ -52,9 +52,7 @@ public class WorldService {
 	
 	public Country addCountry(String land, String landcode, String hoofdstad, String bestuurvorm,String regio, double oppervlakte, int inwoners) {
 		for(Country ctry : getAllCountries()) {
-			System.out.println(landcode + land);
-			System.out.println(ctry.getName().equals(landcode) && ctry.getCapital().equals(hoofdstad));
-			if(!(ctry.getName().equals(landcode) && ctry.getCapital().equals(hoofdstad))) {
+			if(!(ctry.getCode().equals(landcode) && ctry.getCapital().equals(hoofdstad))) {
 				Country countryAdd = new Country(land, landcode, hoofdstad, bestuurvorm, regio, oppervlakte, inwoners);
 				
 				if(countryDaoImpl.save(countryAdd) == false) {
