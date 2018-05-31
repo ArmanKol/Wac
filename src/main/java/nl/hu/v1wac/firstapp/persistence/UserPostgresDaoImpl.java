@@ -17,11 +17,11 @@ public class UserPostgresDaoImpl extends PostgresBaseDao implements UserDao {
 			while(resultset.next()) {
 				if(name.equals(resultset.getString("username")) && pass.equals(resultset.getString("password"))){
 					rol += resultset.getString("role");
-					System.out.println(name);
-					System.out.println(resultset.getString("username"));
 					return rol;
 				}
 			}
+			
+			
 		
 		}catch(Exception e) {
 			System.out.println(e);

@@ -67,11 +67,37 @@ function showWeather(city) {
     	var sunrise = sunriseM.getHours() + ":" + sunriseM.getMinutes() + ":" + sunriseM.getSeconds();
 	
     	var temperatuur = (weather.main.temp - 273.15).toFixed(1);
-	
+    	
+    	if(weather.wind.deg > 247 && weather.wind.deg < 290){
+            windrichtingen = "West"
+        }
+        else if(windrichting > 201 && windrichting < 247){
+            windrichtingen = "Zuid West"
+        }
+        else if(weather.wind.deg > 157 && weather.wind.deg < 202){
+            windrichtingen = "Zuid"
+        }
+        else if(weather.wind.deg > 111 && weather.wind.deg < 157){
+            windrichtingen = "Zuid Oost"
+        }
+        else if(weather.wind.deg > 67 && weather.wind.deg < 111){
+            windrichtingen = "Oost"
+        }
+        else if(weather.wind.deg > 21 && weather.wind.deg < 67){
+            windrichtingen = "Noord Oost"
+        }
+        else if(weather.wind.deg > 337 && windrichting < 21){
+            windrichtingen = "Noord"
+        }
+        else if(windrichting > 292 && windrichting < 337){
+            windrichtingen = "Noord West"
+        }
+    	
+    	
     	document.querySelector("#temperatuur").innerHTML = temperatuur;
         document.querySelector("#luchtvochtigheid").innerHTML = weather.main.humidity;
         document.querySelector("#windsnelheid").innerHTML = weather.wind.speed;
-        document.querySelector("#windrichting").innerHTML = weather.wind.deg;
+        document.querySelector("#windrichting").innerHTML = windrichtingen;
         document.querySelector("#zonsopgang").innerHTML = sunrise;
         document.querySelector("#zonsondergang").innerHTML = sunset;
         document.querySelector("#headerWeer").innerHTML = "Het weer in " + weather.name;
@@ -154,7 +180,7 @@ function loadCountries() {
         			if(response.ok){
         				alert("Country deleted!")
         				console.log("Country deleted!");
-        				//location.reload();
+        				// location.reload();
         			}
         			else if(response.status == 404){
         				console.log("Country not found")
