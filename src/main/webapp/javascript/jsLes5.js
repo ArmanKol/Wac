@@ -197,7 +197,9 @@ function wijzigLand(){
     	var formData = new FormData(document.querySelector("#countryForm"));
     	var encData = new URLSearchParams(formData.entries());
     	
-    	fetch("restservices/countries/" + countryCode, {method: 'PUT', body: encData})
+    	var fetchoptions = {method: 'PUT', body:encData, headers: {'Authorization' : 'Bearer ' + window.sessionStorage.getItem("sessionToken")}};
+    	
+    	fetch("restservices/countries/" + countryCode, fetchoptions)
     		.then(response => response.json())
     		.then(function(myJson){
     			console.log(myJson);
